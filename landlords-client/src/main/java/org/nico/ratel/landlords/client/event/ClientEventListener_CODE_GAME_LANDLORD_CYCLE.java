@@ -8,7 +8,7 @@ public class ClientEventListener_CODE_GAME_LANDLORD_CYCLE extends ClientEventLis
 
 	@Override
 	public void call(Channel channel, String data) {
-		SimplePrinter.printNotice("No player takes the landlord, so redealing cards.");
+		SimplePrinter.printNotice("没有人选择赖盖特，他很失望！对决将被他重启！");
 
 	}
 

@@ -24,14 +24,14 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY extends ClientEventListene
 	public void call(Channel channel, String data) {
 		Map<String, Object> map = MapHelper.parser(data);
 
-		SimplePrinter.printNotice("It's your turn to play, your cards are as follows: ");
+		SimplePrinter.printNotice("这是你的时刻！你手里的筹码就在下面！ ");
 		List<Poker> pokers = Noson.convert(map.get("pokers"), new NoType<List<Poker>>() {
 		});
 		SimplePrinter.printPokers(pokers);
 		SimplePrinter.printNotice("Last cards are");
 		SimplePrinter.printNotice(map.containsKey("lastPokers")?map.get("lastPokers").toString():"");
 
-		SimplePrinter.printNotice("Please enter the combination you came up with (enter [exit|e] to exit current room, enter [pass|p] to jump current round, enter [view|v] to show all valid combinations.)");
+		SimplePrinter.printNotice("来吧！出招！战斗到死为止！ (输入 E 逃离地狱 输入 P 进行时间越过  输入 V 开启鹰眼)");
 		String line = SimpleWriter.write(User.INSTANCE.getNickname(), "combination");
 
 		if (line == null) {
@@ -98,15 +98,21 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY extends ClientEventListene
 				boolean access = true;
 				for (int index = 0; index < strs.length; index++) {
 					String str = strs[index];
+					if (str.equalsIgnoreCase("10")) {
+						// 统一将 10 转换为别名 '0'
+						options.add('0');
+						continue;
+					}
+
 					for (char c : str.toCharArray()) {
 						if (c == ' ' || c == '\t') {
+							continue;
+						}
+						if (!PokerLevel.aliasContains(c)) {
+							access = false;
+							break;
 						} else {
-							if (!PokerLevel.aliasContains(c)) {
-								access = false;
-								break;
-							} else {
-								options.add(c);
-							}
+							options.add(c);
 						}
 					}
 				}
@@ -116,7 +122,10 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY extends ClientEventListene
 					SimplePrinter.printNotice("Invalid enter");
 
 					if (lastPokers != null) {
-						SimplePrinter.printNotice(lastSellClientNickname + "[" + lastSellClientType + "] played:");
+						SimplePrinter.printNotice("是致胜一手还是自我毁灭之道？");
+						String typeZh = lastSellClientType;
+						try{ typeZh = org.nico.ratel.landlords.enums.ClientType.valueOf(typeZh).zh(); }catch(Exception ignore){}
+						SimplePrinter.printNotice(lastSellClientNickname + "[" + typeZh + "] 使用了:");
 						SimplePrinter.printPokers(lastPokers);
 					}
 

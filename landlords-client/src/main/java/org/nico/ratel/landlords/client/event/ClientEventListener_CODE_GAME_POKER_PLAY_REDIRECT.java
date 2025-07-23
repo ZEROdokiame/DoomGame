@@ -41,7 +41,7 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY_REDIRECT extends ClientEve
 		if (sellClientId == SimpleClient.id) {
 			get(ClientEventCode.CODE_GAME_POKER_PLAY).call(channel, data);
 		} else {
-			SimplePrinter.printNotice("It is " + map.get("sellClientNickname") + "'s turn. Please wait for him to play his cards.");
+			SimplePrinter.printNotice("这是 " + map.get("sellClientNickname") + "的时刻！请耐心等他做出决断！");
 		}
 	}
 

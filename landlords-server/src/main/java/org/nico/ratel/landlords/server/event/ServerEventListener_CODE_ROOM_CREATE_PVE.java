@@ -6,51 +6,63 @@ import org.nico.ratel.landlords.entity.Room;
 import org.nico.ratel.landlords.enums.*;
 import org.nico.ratel.landlords.robot.RobotDecisionMakers;
 import org.nico.ratel.landlords.server.ServerContains;
+import java.util.Arrays;
+import java.util.List;
 
 public class ServerEventListener_CODE_ROOM_CREATE_PVE implements ServerEventListener {
 
-	@Override
-	public void call(ClientSide clientSide, String data) {
+    /**
+     * 默认机器人昵称列表，可根据需要在此处增删或调整顺序。
+     */
+    private static final List<String> DEFAULT_ROBOT_NAMES = Arrays.asList("邦邦赌侠许昊龙", "德州赌神侯国玉");
 
-		int difficultyCoefficient = Integer.parseInt(data);
-		if (!RobotDecisionMakers.contains(difficultyCoefficient)) {
-			ChannelUtils.pushToClient(clientSide.getChannel(), ClientEventCode.CODE_PVE_DIFFICULTY_NOT_SUPPORT, null);
-			return;
-		}
+    @Override
+    public void call(ClientSide clientSide, String data) {
 
-		Room room = new Room(ServerContains.getServerId());
-		room.setType(RoomType.PVE);
-		room.setStatus(RoomStatus.BLANK);
-		room.setRoomOwner(clientSide.getNickname());
-		room.getClientSideMap().put(clientSide.getId(), clientSide);
-		room.getClientSideList().add(clientSide);
-		room.setCurrentSellClient(clientSide.getId());
-		room.setCreateTime(System.currentTimeMillis());
-		room.setDifficultyCoefficient(difficultyCoefficient);
+        int difficultyCoefficient = Integer.parseInt(data);
+        if (!RobotDecisionMakers.contains(difficultyCoefficient)) {
+            ChannelUtils.pushToClient(clientSide.getChannel(), ClientEventCode.CODE_PVE_DIFFICULTY_NOT_SUPPORT, null);
+            return;
+        }
 
-		clientSide.setRoomId(room.getId());
-		ServerContains.addRoom(room);
+        Room room = new Room(ServerContains.getServerId());
+        room.setType(RoomType.PVE);
+        room.setStatus(RoomStatus.BLANK);
+        room.setRoomOwner(clientSide.getNickname());
+        room.getClientSideMap().put(clientSide.getId(), clientSide);
+        room.getClientSideList().add(clientSide);
+        room.setCurrentSellClient(clientSide.getId());
+        room.setCreateTime(System.currentTimeMillis());
+        room.setDifficultyCoefficient(difficultyCoefficient);
 
-		ClientSide preClient = clientSide;
-		//Add robots
-		for (int index = 1; index < 3; index++) {
-			ClientSide robot = new ClientSide(-ServerContains.getClientId(), ClientStatus.PLAYING, null);
-			robot.setNickname("robot_" + index);
-			robot.setRole(ClientRole.ROBOT);
-			preClient.setNext(robot);
-			robot.setPre(preClient);
-			robot.setRoomId(room.getId());
-			room.getClientSideMap().put(robot.getId(), robot);
-			room.getClientSideList().add(robot);
+        clientSide.setRoomId(room.getId());
+        ServerContains.addRoom(room);
 
-			preClient = robot;
-			ServerContains.CLIENT_SIDE_MAP.put(robot.getId(), robot);
-		}
-		preClient.setNext(clientSide);
-		clientSide.setPre(preClient);
+        ClientSide preClient = clientSide;
+        //Add robots
+        for (int index = 1; index < 3; index++) {
+            ClientSide robot = new ClientSide(-ServerContains.getClientId(), ClientStatus.PLAYING, null);
+            // 为每个机器人分配独立昵称
+            String nickname;
+            if(index <= DEFAULT_ROBOT_NAMES.size()){
+                nickname = DEFAULT_ROBOT_NAMES.get(index - 1);
+            }else{
+                nickname = "机器人" + index;
+            }
+            robot.setNickname(nickname);
+            robot.setRole(ClientRole.ROBOT);
+            preClient.setNext(robot);
+            robot.setPre(preClient);
+            robot.setRoomId(room.getId());
+            room.getClientSideMap().put(robot.getId(), robot);
+            room.getClientSideList().add(robot);
 
-		ServerEventListener.get(ServerEventCode.CODE_GAME_STARTING).call(clientSide, String.valueOf(room.getId()));
-	}
+            preClient = robot;
+            ServerContains.CLIENT_SIDE_MAP.put(robot.getId(), robot);
+        }
+        preClient.setNext(clientSide);
+        clientSide.setPre(preClient);
 
-
+        ServerEventListener.get(ServerEventCode.CODE_GAME_STARTING).call(clientSide, String.valueOf(room.getId()));
+    }
 }

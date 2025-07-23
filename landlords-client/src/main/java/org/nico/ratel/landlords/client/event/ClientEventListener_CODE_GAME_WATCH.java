@@ -6,6 +6,7 @@ import org.nico.noson.entity.NoType;
 import org.nico.ratel.landlords.client.entity.User;
 import org.nico.ratel.landlords.entity.Poker;
 import org.nico.ratel.landlords.enums.ClientEventCode;
+import org.nico.ratel.landlords.enums.ClientType;
 import org.nico.ratel.landlords.helper.MapHelper;
 import org.nico.ratel.landlords.print.SimplePrinter;
 
@@ -105,7 +106,7 @@ public class ClientEventListener_CODE_GAME_WATCH extends ClientEventListener {
     private void printPlayPokers(Object rawData) {
         Map<String, Object> map = MapHelper.parser(rawData.toString());
 
-        printNoticeWithTime("Player [" + map.get("clientNickname") + "] played:");
+        printNoticeWithTime("Player [" + map.get("clientNickname") + "] 使用了:");
         SimplePrinter.printPokers(Noson.convert(map.get("pokers"), new NoType<List<Poker>>() {}));
     }
 
@@ -134,7 +135,9 @@ public class ClientEventListener_CODE_GAME_WATCH extends ClientEventListener {
     private void printGameResult(Object rawData, Channel channel) {
         Map<String, Object> map = MapHelper.parser(rawData.toString());
 
-        printNoticeWithTime("Player [" + map.get("winnerNickname") + "](" + map.get("winnerType") + ") won the game.");
+        String typeZh = map.get("winnerType").toString();
+        try{ typeZh = ClientType.valueOf(typeZh).zh(); }catch(Exception ignore){}
+        printNoticeWithTime("Player [" + map.get("winnerNickname") + "](" + typeZh + ") won the game.");
     }
 
     private void printKickInfo(Object rawData) {

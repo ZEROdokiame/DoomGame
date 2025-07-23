@@ -59,7 +59,7 @@ public class SimpleClient {
 				throw new RuntimeException("Please use '-host' to setting server address.");
 			}
 
-			SimplePrinter.printNotice("Please select a server:");
+			SimplePrinter.printNotice("选择一个地狱以加入其中:");
 			for (int i = 0; i < serverAddressList.size(); i++) {
 				SimplePrinter.printNotice((i + 1) + ". " + serverAddressList.get(i));
 			}
@@ -91,7 +91,7 @@ public class SimpleClient {
 				String serverInfo = StreamUtils.convertToString(new URL(serverAddressSource));
 				return Noson.convert(serverInfo, new NoType<List<String>>() {});
 			} catch (IOException e) {
-				SimplePrinter.printNotice("Try connected " + serverAddressSource + " failed: " + e.getMessage());
+				SimplePrinter.printNotice("尝试链接到天堂 " + serverAddressSource + "此天堂拒绝了你: " + e.getMessage());
 			}
 		}
 		return null;

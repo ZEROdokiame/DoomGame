@@ -17,7 +17,10 @@ public class ClientEventListener_CODE_CLIENT_CONNECT extends ClientEventListener
 
 	@Override
 	public void call(Channel channel, String data) {
-		SimplePrinter.printNotice("Connected to server. Welcome to ratel!");
+		SimplePrinter.printNotice("正在连接. 欢迎来到地狱!\n"+
+				"前情提要:传说只有被选中的人类才能对抗恶魔。\n"+
+				"恶魔赖盖特正在寻找对抗地狱之王的力量，他将加冕一位地狱幸存者，加冕者被称为赖盖特之赐\n"+
+				"赖盖特之赐将获得更多手牌来对抗其余的两名幸存者，战到最后的人才能获得胜利");
 		SimpleClient.id = Integer.parseInt(data);
 
 		Map<String, Object> infos = new HashMap<>();

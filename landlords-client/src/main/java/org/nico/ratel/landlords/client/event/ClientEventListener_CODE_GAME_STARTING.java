@@ -18,14 +18,14 @@ public class ClientEventListener_CODE_GAME_STARTING extends ClientEventListener 
 
 		Map<String, Object> map = MapHelper.parser(data);
 
-		SimplePrinter.printNotice("Game starting!");
+		SimplePrinter.printNotice("传奇对决开始!");
 
 		List<Poker> pokers = Noson.convert(map.get("pokers"), new NoType<List<Poker>>() {});
 
 		SimplePrinter.printNotice("");
-		SimplePrinter.printNotice("Your cards are");
+		SimplePrinter.printNotice("这是你的筹码！小心点决断，小子！");
 		SimplePrinter.printPokers(pokers);
-		SimplePrinter.printNotice("Last cards are");
+		SimplePrinter.printNotice("这是不能被公开的信息！");
 		SimplePrinter.printNotice(map.containsKey("lastPokers")?map.get("lastPokers").toString():"");
 
 		get(ClientEventCode.CODE_GAME_LANDLORD_ELECT).call(channel, data);

@@ -339,7 +339,7 @@ public class PokerHelper {
 				if (index == 0) {
 					builder.append("│");
 				}
-				String name = pokers.get(index).getLevel().getName();
+				String name = pokers.get(index).getLevel().getDisplayName();
 				builder.append(name).append(name.length() == 1 ? " " : "").append("|");
 			}
 			builder.append(System.lineSeparator());
@@ -377,7 +377,7 @@ public class PokerHelper {
 				if (index == 0) {
 					builder.append("│");
 				}
-				String name = pokers.get(index).getLevel().getName();
+				String name = pokers.get(index).getLevel().getDisplayName();
 				builder.append(name).append(name.length() == 1 ? " " : "").append("|");
 			}
 			builder.append(System.lineSeparator());
@@ -403,7 +403,7 @@ public class PokerHelper {
 		StringBuilder builder = new StringBuilder();
 		if (pokers != null && pokers.size() > 0) {
 			for (Poker poker : pokers) {
-				String name = poker.getLevel().getName();
+				String name = poker.getLevel().getDisplayName();
 				String type = poker.getType().getName();
 
 				builder.append(name).append(type);
@@ -416,7 +416,7 @@ public class PokerHelper {
 		StringBuilder builder = new StringBuilder();
 		if (pokers != null && pokers.size() > 0) {
 			for (Poker poker : pokers) {
-				String name = poker.getLevel().getName();
+				String name = poker.getLevel().getDisplayName();
 				builder.append(name).append(" ");
 			}
 		}

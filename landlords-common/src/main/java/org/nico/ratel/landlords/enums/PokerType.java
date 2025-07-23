@@ -7,15 +7,15 @@ package org.nico.ratel.landlords.enums;
  */
 public enum PokerType {
 
-	BLANK(" "),
+	BLANK("Ψ"),
 
-	DIAMOND("♦"),
+	DIAMOND("♔"),
 
-	CLUB("♣"),
+	CLUB("♕"),
 
-	SPADE("♠"),
+	SPADE("♗"),
 
-	HEART("♥");
+	HEART("♘");
 
 	private final String name;
 

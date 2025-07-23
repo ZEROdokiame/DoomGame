@@ -13,10 +13,10 @@ public class ClientEventListener_CODE_SHOW_OPTIONS extends ClientEventListener {
 	@Override
 	public void call(Channel channel, String data) {
 		SimplePrinter.printNotice("Options: ");
-		SimplePrinter.printNotice("1. PvP");
-		SimplePrinter.printNotice("2. PvE");
-		SimplePrinter.printNotice("3. Settings");
-		SimplePrinter.printNotice("Please select an option above (enter [exit|e] to log out)");
+		SimplePrinter.printNotice("1. 线上对决(暂未开放)");
+		SimplePrinter.printNotice("2. 自我超越");
+		SimplePrinter.printNotice("3. 设置");
+		SimplePrinter.printNotice("请选择要进行对决的模式！ (输入 [exit|e] 注销)");
 		String line = SimpleWriter.write(User.INSTANCE.getNickname(), "selection");
 
 		if(line.equalsIgnoreCase("exit") || line.equalsIgnoreCase("e")) {

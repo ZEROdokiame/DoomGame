@@ -9,7 +9,7 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY_ORDER_ERROR extends Client
 	@Override
 	public void call(Channel channel, String data) {
 
-		SimplePrinter.printNotice("It is not your turn yet. Please wait for other players!");
+		SimplePrinter.printNotice("乖乖坐下小子，还没轮到你！");
 	}
 
 }

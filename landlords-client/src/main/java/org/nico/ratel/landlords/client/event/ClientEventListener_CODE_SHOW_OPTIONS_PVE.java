@@ -14,10 +14,10 @@ public class ClientEventListener_CODE_SHOW_OPTIONS_PVE extends ClientEventListen
 	@Override
 	public void call(Channel channel, String data) {
 		SimplePrinter.printNotice("PVE: ");
-		SimplePrinter.printNotice("1. Easy Mode");
-		SimplePrinter.printNotice("2. Medium Mode");
-		SimplePrinter.printNotice("3. Hard Mode");
-		SimplePrinter.printNotice("Please select an option above (enter [back|b] to return to options list)");
+		SimplePrinter.printNotice("1. 未解锁");
+		SimplePrinter.printNotice("2. 传奇对决模式");
+		SimplePrinter.printNotice("3. 未解锁");
+		SimplePrinter.printNotice("请选择你的难度！ (输入 B 返回)");
 		String line = SimpleWriter.write(User.INSTANCE.getNickname(), "pve");
 
 		if(line.equalsIgnoreCase("back") ||  line.equalsIgnoreCase("b")) {

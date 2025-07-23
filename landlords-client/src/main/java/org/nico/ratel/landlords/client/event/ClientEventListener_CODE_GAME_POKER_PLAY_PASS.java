@@ -15,7 +15,7 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY_PASS extends ClientEventLi
 	public void call(Channel channel, String data) {
 		Map<String, Object> map = MapHelper.parser(data);
 
-		SimplePrinter.printNotice(map.get("clientNickname") + " passed. It is now " + map.get("nextClientNickname") + "'s turn.");
+		SimplePrinter.printNotice(map.get("clientNickname") + " 进行了时间越过！ 现在是" + map.get("nextClientNickname") + "的时刻！");
 
 		int turnClientId = (int) map.get("nextClientId");
 		if (SimpleClient.id == turnClientId) {

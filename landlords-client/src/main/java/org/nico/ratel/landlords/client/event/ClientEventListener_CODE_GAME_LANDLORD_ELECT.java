@@ -19,11 +19,11 @@ public class ClientEventListener_CODE_GAME_LANDLORD_ELECT extends ClientEventLis
 		int turnClientId = (int) map.get("nextClientId");
 
 		if (map.containsKey("preClientNickname")) {
-			SimplePrinter.printNotice(map.get("preClientNickname") + " don't rob the landlord!");
+			SimplePrinter.printNotice(map.get("preClientNickname") + " 拒绝了赖盖特的加冕！");
 		}
 
 		if(turnClientId == SimpleClient.id) {
-			SimplePrinter.printNotice("It's your turn. Do you want to rob the landlord? [Y/N] (enter [exit|e] to exit current room)");
+			SimplePrinter.printNotice("赖盖特选中了你！按下y来加冕为王，或拒绝赖盖特的加冕！ [Y/N] ");
 			String line = SimpleWriter.write(User.INSTANCE.getNickname(), "Y/N");
 			if (line.equalsIgnoreCase("exit") || line.equalsIgnoreCase("e")) {
 				pushToServer(channel, ServerEventCode.CODE_CLIENT_EXIT);
@@ -36,7 +36,7 @@ public class ClientEventListener_CODE_GAME_LANDLORD_ELECT extends ClientEventLis
 				call(channel, data);
 			}
 		} else {
-			SimplePrinter.printNotice("It's " + map.get("nextClientNickname") + "'s turn. Please wait patiently for his/her confirmation !");
+			SimplePrinter.printNotice("这是 " + map.get("nextClientNickname") + "的时刻，请耐心等他做出决断 !");
 		}
 
 	}

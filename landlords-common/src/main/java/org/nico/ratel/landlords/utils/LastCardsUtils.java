@@ -6,7 +6,14 @@ import java.util.*;
 
 public class LastCardsUtils {
 
-    private static final List<String> defSort = new ArrayList(){{
+    /**
+     * 按游戏内部大小顺序排列的牌面名称列表。
+     * 
+     * 说明：
+     *  - 小王、大王在系统内部分别命名为 {@code S}（Small） 和 {@code X}（eXtra / big）。
+     *  - 之前使用中文“王”“神”，导致统计和显示不一致，现统一为内部名称。
+     */
+    private static final List<String> defSort = new ArrayList<String>(){{
         add("3");
         add("4");
         add("5");
@@ -20,8 +27,8 @@ public class LastCardsUtils {
         add("K");
         add("A");
         add("2");
-        add("S");
-        add("X");
+        add("S"); // 小王 Small King
+        add("X"); // 大王 Big King
     }};
 
     public static String getLastCards(List<List<Poker>> pokers){
@@ -31,12 +38,21 @@ public class LastCardsUtils {
             List<Poker> pokerList = pokers.get(i);
             for(int a = 0; a < pokerList.size(); a++){
                 Poker poker = pokerList.get(a);
-                lastCardMap.put(poker.getLevel().getName(),(lastCardMap.get(poker.getLevel().getName())+1));
+                if(poker != null && poker.getLevel() != null){
+                    String levelName = poker.getLevel().getName();
+                    // 使用 getOrDefault 防止空指针异常，如果该牌面尚未统计则默认值为 0
+                    lastCardMap.put(levelName, lastCardMap.getOrDefault(levelName, 0) + 1);
+                }
             }
         }
         for(int i = 0; i < defSort.size(); i++){
             String key = defSort.get(i);
-            lastCards.append(key + "["+lastCardMap.get(key)+"] ");
+            // 显示时将 S/X 转换为 王/神
+            String displayKey = key;
+            if("S".equals(key)) displayKey = "王";
+            else if("X".equals(key)) displayKey = "神";
+
+            lastCards.append(displayKey + "["+lastCardMap.get(key)+"] ");
         }
 
         return lastCards.toString();

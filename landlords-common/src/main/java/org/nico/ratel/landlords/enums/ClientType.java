@@ -2,8 +2,18 @@ package org.nico.ratel.landlords.enums;
 
 public enum ClientType {
 
-	LANDLORD,
+    LANDLORD("赖盖特之赐"),
 
-	PEASANT
+    PEASANT("地狱幸存者");
+
+    private final String zhName;
+
+    ClientType(String zhName){
+        this.zhName = zhName;
+    }
+
+    public String zh(){
+        return zhName;
+    }
 
 }

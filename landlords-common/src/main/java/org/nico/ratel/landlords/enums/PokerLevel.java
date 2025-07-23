@@ -41,7 +41,6 @@ public enum PokerLevel {
 
 	LEVEL_BIG_KING(17, "X", new Character[]{'X', 'x'}),
 	;
-
 	private int level;
 
 	private String name;
@@ -110,4 +109,19 @@ public enum PokerLevel {
 		}
 		return null;
 	}
+
+    /**
+     * 用于界面显示的牌面名称。<br/>
+     * 维持内部逻辑名称不变（S/X），仅在需要展示给玩家时调用。<br/>
+     */
+    public String getDisplayName() {
+        switch (this) {
+            case LEVEL_SMALL_KING:
+                return "王";
+            case LEVEL_BIG_KING:
+                return "神";
+            default:
+                return this.name;
+        }
+    }
 }

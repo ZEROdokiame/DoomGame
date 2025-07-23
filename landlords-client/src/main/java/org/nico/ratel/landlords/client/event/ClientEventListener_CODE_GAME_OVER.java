@@ -8,6 +8,7 @@ import org.nico.noson.Noson;
 import org.nico.noson.entity.NoType;
 import org.nico.ratel.landlords.client.SimpleClient;
 import org.nico.ratel.landlords.entity.Poker;
+import org.nico.ratel.landlords.enums.ClientType;
 import org.nico.ratel.landlords.helper.MapHelper;
 import org.nico.ratel.landlords.print.SimplePrinter;
 
@@ -18,7 +19,11 @@ public class ClientEventListener_CODE_GAME_OVER extends ClientEventListener {
 	@Override
 	public void call(Channel channel, String data) {
 		Map<String, Object> map = MapHelper.parser(data);
-		SimplePrinter.printNotice("\nPlayer " + map.get("winnerNickname") + "[" + map.get("winnerType") + "]" + " won the game");
+		String typeZh = map.get("winnerType").toString();
+		try{
+			typeZh = ClientType.valueOf(typeZh).zh();
+		}catch(Exception ignore){}
+		SimplePrinter.printNotice("\nPlayer " + map.get("winnerNickname") + "[" + typeZh + "]" + " won the game");
 
 		if (map.containsKey("scores")){
 			List<Map<String, Object>> scores = Noson.convert(map.get("scores"), new NoType<List<Map<String, Object>>>() {});
