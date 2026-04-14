@@ -23,7 +23,7 @@ public class ClientEventListener_CODE_GAME_LANDLORD_ELECT extends ClientEventLis
 		}
 
 		if(turnClientId == SimpleClient.id) {
-			SimplePrinter.printNotice("赖盖特选中了你！按下y来加冕为王，或拒绝赖盖特的加冕！ [Y/N] ");
+			SimplePrinter.printNotice("赖盖特选中了你！按下y来获得恶魔之力，或拒绝赖盖特的好意！ [Y/N] ");
 			String line = SimpleWriter.write(User.INSTANCE.getNickname(), "Y/N");
 			if (line.equalsIgnoreCase("exit") || line.equalsIgnoreCase("e")) {
 				pushToServer(channel, ServerEventCode.CODE_CLIENT_EXIT);

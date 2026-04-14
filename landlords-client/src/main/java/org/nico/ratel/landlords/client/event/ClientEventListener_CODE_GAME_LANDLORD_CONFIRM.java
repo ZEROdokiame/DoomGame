@@ -20,7 +20,7 @@ public class ClientEventListener_CODE_GAME_LANDLORD_CONFIRM extends ClientEventL
 
 		String landlordNickname = String.valueOf(map.get("landlordNickname"));
 
-		SimplePrinter.printNotice(landlordNickname + "已经成为了王！他现在获得了额外的三张手牌！");
+		SimplePrinter.printNotice(landlordNickname + "堕入地狱！他现在获得了额外的三张手牌！");
 
 		List<Poker> additionalPokers = Noson.convert(map.get("additionalPokers"), new NoType<List<Poker>>() {});
 		SimplePrinter.printPokers(additionalPokers);

@@ -14,7 +14,7 @@ public class ServerEventListener_CODE_ROOM_CREATE_PVE implements ServerEventList
     /**
      * 默认机器人昵称列表，可根据需要在此处增删或调整顺序。
      */
-    private static final List<String> DEFAULT_ROBOT_NAMES = Arrays.asList("地狱试炼者", "地狱挑战者");
+    private static final List<String> DEFAULT_ROBOT_NAMES = Arrays.asList("骑士罗德里克", "法师那瓦蓝");
 
     @Override
     public void call(ClientSide clientSide, String data) {
