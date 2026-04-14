@@ -1,86 +1,202 @@
-# Ratel
+# Ratel - 命令行斗地主
 
-[![GitHub forks](https://img.shields.io/github/forks/ainilili/ratel?style=flat-square)](https://github.com/ainilili/ratel/network)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/ainilili/ratel?style=flat-square)
-![GitHub all releases](https://img.shields.io/github/downloads/ainilili/ratel/total?logo=spring&style=flat-square)
-[![GitHub stars](https://img.shields.io/github/stars/ainilili/ratel?logo=java&style=flat-square)](https://github.com/ainilili/ratel/stargazers)
-[![GitHub license](https://img.shields.io/github/license/ainilili/ratel?logo=apache&style=flat-square)](https://github.com/ainilili/ratel/blob/master/LICENSE)
-![Build ratel(Java with Maven)](https://github.com/ainilili/ratel/workflows/Build%20ratel(Java%20with%20Maven)/badge.svg?branch=master)
-![Docker Image Version (latest by date)](https://img.shields.io/docker/v/kebyn/ratel?label=Docker&logo=docker&style=flat-square)
+> 基于 [ainilili/ratel](https://gitee.com/ainilili/ratel) 二次开发的本地命令行斗地主游戏。
 
 ## 介绍
-基于Netty实现的命令行斗地主游戏，为划水摸鱼而生~
 
-> 新版开发中：[直通车](https://github.com/ratel-online)，新增癞子模式，增加超时机制，完美复现欢乐斗地主，欢迎体验在线版 [http://rtol.isnico.com/](http://rtol.isnico.com/) 
+Ratel 是一个在命令行中运行的斗地主游戏，基于 Netty + Protobuf 实现。本版本为**纯本地单机版**，去除了已失效的在线联机功能，专注于 PVE 人机对战体验。
 
-## 安装
-首先下载打包，确保本地安装有maven及JRE环境：
+### 特色
+
+- 🎮 **纯命令行操作**，随开随玩
+- 🤖 **人机对战**（传奇对决模式）
+- 🃏 **多种牌面显示风格**可选
+- 🏠 **纯本地运行**，无需联网
+
+## 环境要求
+
+- JDK 1.8+
+- Maven 3.x
+
+## 安装与运行
+
+### 1. 克隆项目
+
 ```powershell
-git clone https://github.com/ainilili/ratel.git
-cd ratel
-mvn install package
+git clone https://github.com/ZEROdokiame/doomgame.git
+cd doomgame
 ```
-接下来分别运行 ``landlords-client`` 和 ``landlords-server`` 的 ``target`` 文件夹下的Jar包：
-```powershell
-java -jar landlords-server/target/landlords-server-#{version}.jar -p 1024
-java -jar landlords-client/target/landlords-client-#{version}.jar -p 1024 -h 127.0.0.1
-```
-客户端亦可直接运行，程序会自动拉取[Serverlist](https://github.com/ainilili/ratel/blob/master/serverlist.json)中的公网服务器：
-```powershell
-java -jar landlords-client/target/landlords-client-#{version}.jar
-```
-**注意**，实际运行中请将``#{version}``改为当前运行版本！
-## 玩法介绍
-在线试玩：[传送门](http://ratel.isnico.com)
 
-![demo](demo.gif)
+### 2. 编译打包
 
-### 出牌规则
-所有牌型：
+```powershell
+mvn install package -DskipTests
+```
+
+### 3. 启动服务端
+
+```powershell
+java -jar landlords-server/target/landlords-server-1.4.0.jar -p 1024
+```
+
+### 4. 启动客户端（新开一个终端）
+
+```powershell
+java -jar landlords-client/target/landlords-client-1.4.0.jar
+```
+
+客户端默认连接 `127.0.0.1:1024`，也可以手动指定：
+
+```powershell
+java -jar landlords-client/target/landlords-client-1.4.0.jar -h 127.0.0.1 -p 1024
+```
+
+## 游戏流程
+
+### 1. 设置昵称
+
+启动客户端后，输入你的游戏昵称（最多 10 个字符）。
+
+### 2. 主菜单
+
+```
+Options:
+1. 开始游戏
+2. 设置
+请选择要进行的操作！ (输入 [exit|e] 注销)
+```
+
+- 选择 **1** 直接进入传奇对决模式（PVE 人机对战）
+- 选择 **2** 进入牌面显示设置
+
+### 3. 显示风格设置
+
+```
+Setting:
+1. Card with shape edges (Default)   — 方角卡牌
+2. Card with rounded edges           — 圆角卡牌
+3. Text Only with types              — 纯文字（带花色）
+4. Text Only without types           — 纯文字（无花色）
+5. Unicode Cards                     — Unicode 卡牌
+```
+
+### 4. 抢地主
+
+游戏开始后，系统会随机选人抢地主：
+
+- 输入 `Y` — 接受加冕，成为**赖盖特之赐**（地主）
+- 输入 `N` — 拒绝加冕，成为**地狱幸存者**（农民）
+
+地主将获得额外的 3 张底牌。
+
+### 5. 出牌
+
+```
+来吧！出招！战斗到死为止！
+(输入 E 逃离地狱  输入 P 进行时间越过  输入 V 开启鹰眼)
+```
+
+| 操作 | 按键 |
+|------|------|
+| 出牌 | 直接输入牌面字符 |
+| 不出（过） | `P` 或 `pass` |
+| 鹰眼（查看可出的牌） | `V` 或 `view` |
+| 退出游戏 | `E` 或 `exit` |
+
+## 出牌规则
+
+### 所有牌面
+
 ```
 ┌──┐──┐──┐──┐──┐──┐──┐──┐──┐──┐──┐──┐──┐──┐──┐
-│3 |4 |5 |6 |7 |8 |9 |10|J |Q |K |A |2 |S |X |
+│3 |4 |5 |6 |7 |8 |9 |10|J |Q |K |A |2 |王 |神 |
 │♦ |♦ |♦ |♦ |♦ |♦ |♦ |♦ |♦ |♦ |♦ |♦ |♦ |  |  |
 └──┘──┘──┘──┘──┘──┘──┘──┘──┘──┘──┘──┘──┘──┘──┘
 ```
-示例：
- - 王炸：``sx``
- - 顺子：``34567``
- - 三带一：``3334``
- - 飞机：``333444a2``
- - 单张10：``0``或者``t``
- - 单张A：``a``或者``1``
- - 封顶顺子：``34567890jqka``
- - 不想出牌： ``pass``或``p``
- - 退出： ``exit``或者``e``
- - [更多](https://zh.wikipedia.org/zh-sg/%E9%AC%A5%E5%9C%B0%E4%B8%BB)
 
-#### 协议支持
- - TCP
- - Websocket
+### 按键映射
 
-Websocket协议的地址为 ``ws://host:port/ratel``，Websocket的端口需要在原端口基础上加1 （如果tcp端口为1024，则ws端口需要为1025）
-## 划水俱乐部
-QQ群 ``948365095``，划水一时爽，一直划水一直爽！
+| 牌面 | 输入方式 |
+|------|---------|
+| 3-9 | 直接输入数字 |
+| 10 | `0` 或 `t` 或 `10` |
+| J | `j` |
+| Q | `q` |
+| K | `k` |
+| A | `a` 或 `1` |
+| 2 | `2` |
+| 王（小王） | `w` |
+| 神（大王） | `s` |
 
-## 生态
- - [go-ratel-client](https://github.com/ZuoFuhong/go-ratel)
- - [javafx-ratel-client](https://github.com/marmot-z/javafx-ratel-client)
- - [javascript-ratel-client](https://github.com/marmot-z/js-ratel-client)
- 
-## 教学
- - [Ratel浅析] (https://github.com/HelloGitHub-Team/Article/blob/master/contents/Java/landlords/content.md)
- - [Ratel玩法视频教学] (https://www.bilibili.com/video/av97603585)
+### 牌型与出牌示例
 
-## 更新日志
- - [更新日志](https://github.com/ainilili/ratel/blob/master/UPDATE.md)
+| 牌型 | 示例 | 说明 |
+|------|------|------|
+| 单张 | `3` | 出单张 3 |
+| 单张 10 | `0` 或 `t` | 出单张 10 |
+| 对子 | `33` | 一对 3 |
+| 三张 | `333` | 三张 3 |
+| 三带一 | `3334` | 三张 3 带单张 4 |
+| 三带对 | `33344` | 三张 3 带一对 4 |
+| 炸弹 | `3333` | 四张 3 |
+| 王炸 | `ws` | 小王 + 大王 |
+| 顺子 | `34567` | 五张或以上连续单牌 |
+| 连对 | `334455` | 三对或以上连续对子 |
+| 飞机 | `333444` | 两组或以上连续三张 |
+| 飞机带翅膀 | `333444a2` | 飞机带单牌 |
+| 四带二 | `333356` | 四张 3 带两张单牌 |
+| 不出 | `p` 或 `pass` | 跳过本轮 |
 
-## 计划
- - 支持高级难度机器人
+### 记牌器
 
-## More
- - [Serverlist.json](https://github.com/ainilili/ratel/blob/master/serverlist.json) 是当前的服务器列表, 如果你的服务器部署着当前最新版本的服务端并且分享给大家，可以通过PR提交给我们!
- - 如果您想贡献代码，非常欢迎提``PR``，我们将会合并优秀的代码.
- - 如果您发现了``Bug``，非常欢迎提``Issue``给我们.
- - 欢迎扩展其他语言的客户端.
- - 联系我们请发邮件到 ``ainililia@163.com``.
+游戏中会显示剩余牌面信息：
+
+```
+3[?] 4[?] 5[?] 6[?] 7[?] 8[?] 9[?] 10[?] J[?] Q[?] K[?] A[?] 2[?] 王[?] 神[?]
+```
+
+方括号内的数字表示该牌面已出现的数量。
+
+## 角色说明
+
+| 角色 | 名称 | 说明 |
+|------|------|------|
+| 地主 | 赖盖特之赐 | 抢到地主的玩家，获得 3 张额外底牌，先出完牌则获胜 |
+| 农民 | 地狱幸存者 | 未抢到地主的玩家，两位农民为一队，任一人先出完牌则获胜 |
+
+## 项目结构
+
+```
+ratel/
+├── landlords-client/    # 客户端模块
+├── landlords-server/    # 服务端模块
+├── landlords-common/    # 公共模块（牌型、规则、工具类等）
+├── protoc-resource/     # Protobuf 协议定义文件
+├── docker/              # Docker 部署文件
+└── pom.xml              # Maven 父工程配置
+```
+
+## 启动参数
+
+### 服务端
+
+| 参数 | 说明 | 默认值 |
+|------|------|--------|
+| `-p` / `-port` | 监听端口 | `1024` |
+
+### 客户端
+
+| 参数 | 说明 | 默认值 |
+|------|------|--------|
+| `-h` / `-host` | 服务器地址 | `127.0.0.1` |
+| `-p` / `-port` | 服务器端口 | `1024` |
+| `-ptl` / `-protocol` | 通信协议（`pb` / `ws`） | `pb` |
+
+## 致谢
+
+本项目基于 [ainilili/ratel](https://gitee.com/ainilili/ratel) 二次开发，感谢原作者的开源贡献。
+
+## 开源协议
+
+[Apache License 2.0](LICENSE)
+

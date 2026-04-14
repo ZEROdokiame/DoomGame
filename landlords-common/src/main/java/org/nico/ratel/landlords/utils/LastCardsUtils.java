@@ -10,8 +10,7 @@ public class LastCardsUtils {
      * 按游戏内部大小顺序排列的牌面名称列表。
      * 
      * 说明：
-     *  - 小王、大王在系统内部分别命名为 {@code S}（Small） 和 {@code X}（eXtra / big）。
-     *  - 之前使用中文“王”“神”，导致统计和显示不一致，现统一为内部名称。
+     *  - 小王、大王在系统内部分别命名为 {@code W}（王） 和 {@code S}（神）。
      */
     private static final List<String> defSort = new ArrayList<String>(){{
         add("3");
@@ -27,8 +26,8 @@ public class LastCardsUtils {
         add("K");
         add("A");
         add("2");
-        add("S"); // 小王 Small King
-        add("X"); // 大王 Big King
+        add("W"); // 小王（王）
+        add("S"); // 大王（神）
     }};
 
     public static String getLastCards(List<List<Poker>> pokers){
@@ -47,10 +46,10 @@ public class LastCardsUtils {
         }
         for(int i = 0; i < defSort.size(); i++){
             String key = defSort.get(i);
-            // 显示时将 S/X 转换为 王/神
+            // 显示时将 W/S 转换为 王/神
             String displayKey = key;
-            if("S".equals(key)) displayKey = "王";
-            else if("X".equals(key)) displayKey = "神";
+            if("W".equals(key)) displayKey = "王";
+            else if("S".equals(key)) displayKey = "神";
 
             lastCards.append(displayKey + "["+lastCardMap.get(key)+"] ");
         }
@@ -74,8 +73,8 @@ public class LastCardsUtils {
         lastCardMap.put("J",0);
         lastCardMap.put("Q",0);
         lastCardMap.put("K",0);
+        lastCardMap.put("W",0);
         lastCardMap.put("S",0);
-        lastCardMap.put("X",0);
         return lastCardMap;
     }
 }

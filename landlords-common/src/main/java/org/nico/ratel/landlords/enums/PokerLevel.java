@@ -37,9 +37,9 @@ public enum PokerLevel {
 
 	LEVEL_2(15, "2", new Character[]{'2'}),
 
-	LEVEL_SMALL_KING(16, "S", new Character[]{'S', 's'}),
+	LEVEL_SMALL_KING(16, "W", new Character[]{'W', 'w'}),
 
-	LEVEL_BIG_KING(17, "X", new Character[]{'X', 'x'}),
+	LEVEL_BIG_KING(17, "S", new Character[]{'S', 's'}),
 	;
 	private int level;
 
@@ -112,7 +112,7 @@ public enum PokerLevel {
 
     /**
      * 用于界面显示的牌面名称。<br/>
-     * 维持内部逻辑名称不变（S/X），仅在需要展示给玩家时调用。<br/>
+     * 小王内部名称 W（王），大王内部名称 S（神），仅在需要展示给玩家时调用。<br/>
      */
     public String getDisplayName() {
         switch (this) {
