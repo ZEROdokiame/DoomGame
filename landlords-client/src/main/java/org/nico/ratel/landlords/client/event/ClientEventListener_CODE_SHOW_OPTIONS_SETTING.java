@@ -13,14 +13,14 @@ public class ClientEventListener_CODE_SHOW_OPTIONS_SETTING extends ClientEventLi
 
 	@Override
 	public void call(Channel channel, String data) {
-		SimplePrinter.printNotice("Setting: ");
-		SimplePrinter.printNotice("1. Card with shape edges (Default)");
-		SimplePrinter.printNotice("2. Card with rounded edges");
-		SimplePrinter.printNotice("3. Text Only with types");
-		SimplePrinter.printNotice("4. Text Only without types");
-		SimplePrinter.printNotice("5. Unicode Cards");
+		SimplePrinter.printNotice("设置: ");
+		SimplePrinter.printNotice("1. 方角卡牌（默认）");
+		SimplePrinter.printNotice("2. 圆角卡牌");
+		SimplePrinter.printNotice("3. 纯文字（带花色）");
+		SimplePrinter.printNotice("4. 纯文字（无花色）");
+		SimplePrinter.printNotice("5. Unicode 卡牌");
 
-		SimplePrinter.printNotice("Please select an option above (enter [BACK] to return to options list)");
+		SimplePrinter.printNotice("请选择显示风格！ (输入 [BACK] 返回主菜单)");
 		String line = SimpleWriter.write(User.INSTANCE.getNickname(), "setting");
 
 		if (line.equalsIgnoreCase("BACK")) {
@@ -32,7 +32,7 @@ public class ClientEventListener_CODE_SHOW_OPTIONS_SETTING extends ClientEventLi
 				PokerHelper.pokerPrinterType = choose - 1;
 				get(ClientEventCode.CODE_SHOW_OPTIONS).call(channel, data);
 			} else {
-				SimplePrinter.printNotice("Invalid setting, please choose again：");
+				SimplePrinter.printNotice("无效选项，请重新选择：");
 				call(channel, data);
 			}
 		}

@@ -24,10 +24,10 @@ public class ClientEventListener_CODE_CLIENT_NICKNAME_SET extends ClientEventLis
 		if (StringUtils.isNotBlank(data)) {
 			Map<String, Object> dataMap = MapHelper.parser(data);
 			if (dataMap.containsKey("invalidLength")) {
-				SimplePrinter.printNotice("Your nickname has invalid length: " + dataMap.get("invalidLength"));
+				SimplePrinter.printNotice("昵称长度无效: " + dataMap.get("invalidLength"));
 			}
 		}
-		SimplePrinter.printNotice("请输入要进行传奇对决的名称 (upto " + NICKNAME_MAX_LENGTH + " characters)");
+		SimplePrinter.printNotice("请输入要进行传奇对决的名称 (最多 " + NICKNAME_MAX_LENGTH + " 个字符)");
 		String nickname = SimpleWriter.write(User.INSTANCE.getNickname(), "nickname");
 
 		// If the length of nickname is more that NICKNAME_MAX_LENGTH

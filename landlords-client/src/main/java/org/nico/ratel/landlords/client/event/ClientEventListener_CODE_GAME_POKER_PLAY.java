@@ -28,14 +28,14 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY extends ClientEventListene
 		List<Poker> pokers = Noson.convert(map.get("pokers"), new NoType<List<Poker>>() {
 		});
 		SimplePrinter.printPokers(pokers);
-		SimplePrinter.printNotice("Last cards are");
+		SimplePrinter.printNotice("记牌器：");
 		SimplePrinter.printNotice(map.containsKey("lastPokers")?map.get("lastPokers").toString():"");
 
 		SimplePrinter.printNotice("来吧！出招！战斗到死为止！ (输入 E 逃离地狱 输入 P 进行时间越过  输入 V 开启鹰眼)");
 		String line = SimpleWriter.write(User.INSTANCE.getNickname(), "combination");
 
 		if (line == null) {
-			SimplePrinter.printNotice("Invalid enter");
+			SimplePrinter.printNotice("无效输入");
 			call(channel, data);
 		} else {
 			if (line.equalsIgnoreCase("pass") || line.equalsIgnoreCase("p")) {
@@ -44,20 +44,20 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY extends ClientEventListene
 				pushToServer(channel, ServerEventCode.CODE_CLIENT_EXIT);
 			} else if (line.equalsIgnoreCase("view") || line.equalsIgnoreCase("v")) {
 				if (!map.containsKey("lastSellPokers") || !map.containsKey("lastSellClientId")) {
-					SimplePrinter.printNotice("Current server version unsupport this feature, need more than v1.2.4.");
+					SimplePrinter.printNotice("当前服务端版本不支持此功能，需要 v1.2.4 以上版本。");
 					call(channel, data);
 					return;
 				}
 				Object lastSellPokersObj = map.get("lastSellPokers");
 				if (lastSellPokersObj == null || Integer.valueOf(SimpleClient.id).equals(map.get("lastSellClientId"))) {
-					SimplePrinter.printNotice("Up to you !");
+					SimplePrinter.printNotice("轮到你先出牌！");
 					call(channel, data);
 					return;
 				} else {
 					List<Poker> lastSellPokers = Noson.convert(lastSellPokersObj, new NoType<List<Poker>>() {});
 					List<PokerSell> sells = PokerHelper.validSells(PokerHelper.checkPokerType(lastSellPokers), pokers);
 					if (sells.size() == 0) {
-						SimplePrinter.printNotice("It is a pity that, there is no winning combination...");
+						SimplePrinter.printNotice("很遗憾，没有能打过的牌型组合...");
 						call(channel, data);
 						return;
 					}
@@ -65,7 +65,7 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY extends ClientEventListene
 						SimplePrinter.printNotice(i + 1 + ". " + PokerHelper.textOnlyNoType(sells.get(i).getSellPokers()));
 					}
 					while (true) {
-						SimplePrinter.printNotice("You can enter index to choose anyone.(enter [back|b] to go back.)");
+						SimplePrinter.printNotice("输入序号选择出牌组合 (输入 [back|b] 返回)");
 						line = SimpleWriter.write(User.INSTANCE.getNickname(), "choose");
 						if (line.equalsIgnoreCase("back") || line.equalsIgnoreCase("b")) {
 							call(channel, data);
@@ -74,7 +74,7 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY extends ClientEventListene
 							try {
 								int choose = Integer.valueOf(line);
 								if (choose < 1 || choose > sells.size()) {
-									SimplePrinter.printNotice("The input number must be in the range of 1 to " + sells.size() + ".");
+									SimplePrinter.printNotice("输入的数字必须在 1 到 " + sells.size() + " 之间。");
 								} else {
 									List<Poker> choosePokers = sells.get(choose - 1).getSellPokers();
 									List<Character> options = new ArrayList<>();
@@ -85,7 +85,7 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY extends ClientEventListene
 									break;
 								}
 							} catch (NumberFormatException e) {
-								SimplePrinter.printNotice("Please input a number.");
+								SimplePrinter.printNotice("请输入数字。");
 							}
 						}
 					}
@@ -116,10 +116,10 @@ public class ClientEventListener_CODE_GAME_POKER_PLAY extends ClientEventListene
 						}
 					}
 				}
-				if (access) {
-					pushToServer(channel, ServerEventCode.CODE_GAME_POKER_PLAY, Noson.reversal(options.toArray(new Character[]{})));
-				} else {
-					SimplePrinter.printNotice("Invalid enter");
+			if (access) {
+				pushToServer(channel, ServerEventCode.CODE_GAME_POKER_PLAY, Noson.reversal(options.toArray(new Character[]{})));
+			} else {
+				SimplePrinter.printNotice("无效输入");
 
 					if (lastPokers != null) {
 						SimplePrinter.printNotice("是致胜一手还是自我毁灭之道？");

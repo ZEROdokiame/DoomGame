@@ -16,14 +16,14 @@ public class ClientEventListener_CODE_GAME_READY extends ClientEventListener {
     public void call(Channel channel, String data) {
         Map<String, Object> map = MapHelper.parser(data);
         if (SimpleClient.id == (int) map.get("clientId")) {
-            SimplePrinter.printNotice("you are ready to play game.");
+            SimplePrinter.printNotice("你已准备就绪。");
             return;
         }
-        SimplePrinter.printNotice(map.get("clientNickName").toString() + " is ready to play game.");
+        SimplePrinter.printNotice(map.get("clientNickName").toString() + " 已准备就绪。");
     }
 
     static void gameReady(Channel channel) {
-        SimplePrinter.printNotice("\nDo you want to continue the game? [Y/N]");
+        SimplePrinter.printNotice("\n是否继续下一局？ [Y/N]");
         String line = SimpleWriter.write(User.INSTANCE.getNickname(), "notReady");
         if (line.equals("Y") || line.equals("y")) {
             ChannelUtils.pushToServer(channel, ServerEventCode.CODE_GAME_READY, "");
